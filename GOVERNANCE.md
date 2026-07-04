@@ -1,6 +1,6 @@
 # Governance
 
-`cloud-itonami-8521` is an OSS open-business blueprint for general secondary education -- academic secondary-school instruction for adolescents by licensed educators.
+`cloud-itonami-isic-8521` is an OSS open-business blueprint for general secondary education -- academic secondary-school instruction for adolescents by licensed educators.
 Governance covers both the capability layer and the operator model.
 
 ## Maintainers

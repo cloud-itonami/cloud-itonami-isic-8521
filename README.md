@@ -1,4 +1,4 @@
-# cloud-itonami-8521
+# cloud-itonami-isic-8521
 
 Open Business Blueprint for **ISIC Rev.5 8521**: General secondary education.
 

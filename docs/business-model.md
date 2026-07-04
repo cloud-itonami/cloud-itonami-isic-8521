@@ -2,7 +2,7 @@
 
 ## Classification
 
-- Repository: `cloud-itonami-8521`
+- Repository: `cloud-itonami-isic-8521`
 - ISIC Rev.5: `8521`
 - Activity: general secondary education -- academic secondary-school instruction for adolescents by licensed educators
 - Social impact: education access, data sovereignty, transparent audit
