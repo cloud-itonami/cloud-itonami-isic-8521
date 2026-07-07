@@ -31,7 +31,14 @@
 ## Trust Controls
 
 - no grading or graduation decision is finalized without human sign-off
-- a fabricated assessment forces a hold, not an override
-- every record path is auditable
+- a fabricated jurisdiction citation, incomplete evidence, insufficient
+  attendance hours, an unresolved academic-integrity flag, or
+  unsatisfied graduation requirements -- each forces a hold, not an
+  override
+- a student's grading or graduation cannot be finalized twice: a
+  double-finalization attempt is held off this actor's own student
+  facts alone, with no upstream comparison needed
+- every intake, assessment, screening, grading and graduation path is
+  auditable
 - student data stays outside Git
 - emergency manual override paths remain outside LLM control
