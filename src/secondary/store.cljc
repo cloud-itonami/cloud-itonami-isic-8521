@@ -33,10 +33,9 @@
   immutable log -- the audit trail a student/family trusting a school
   needs, and the evidence an operator needs if a grading or graduation
   decision is later disputed."
-  (:require #?(:clj  [clojure.edn :as edn]
-               :cljs [cljs.reader :as edn])
-            [secondary.registry :as registry]
-            [langchain.db :as d]))
+  (:require [secondary.registry :as registry]
+            [langchain.db :as d]
+            [langchain-store.core :as ls]))
 
 (defprotocol Store
   (student [s id])
@@ -201,9 +200,6 @@
    :grading-sequence/jurisdiction   {:db/unique :db.unique/identity}
    :graduation-sequence/jurisdiction {:db/unique :db.unique/identity}})
 
-(defn- enc [v] (pr-str v))
-(defn- dec* [s] (when s (edn/read-string s)))
-
 (defn- student->tx [{:keys [id student-name attendance-hours-completed attendance-hours-required
                             credits-earned credits-required academic-integrity-flag?
                             grading-finalized? graduation-finalized?
@@ -212,8 +208,8 @@
     student-name                          (assoc :student/student-name student-name)
     attendance-hours-completed             (assoc :student/attendance-hours-completed attendance-hours-completed)
     attendance-hours-required              (assoc :student/attendance-hours-required attendance-hours-required)
-    credits-earned                        (assoc :student/credits-earned (enc credits-earned))
-    credits-required                      (assoc :student/credits-required (enc credits-required))
+    credits-earned                        (assoc :student/credits-earned (ls/enc credits-earned))
+    credits-required                      (assoc :student/credits-required (ls/enc credits-required))
     (some? academic-integrity-flag?)      (assoc :student/academic-integrity-flag? academic-integrity-flag?)
     (some? grading-finalized?)            (assoc :student/grading-finalized? grading-finalized?)
     (some? graduation-finalized?)          (assoc :student/graduation-finalized? graduation-finalized?)
@@ -233,8 +229,8 @@
     {:id (:student/id m) :student-name (:student/student-name m)
      :attendance-hours-completed (:student/attendance-hours-completed m)
      :attendance-hours-required (:student/attendance-hours-required m)
-     :credits-earned (or (dec* (:student/credits-earned m)) #{})
-     :credits-required (or (dec* (:student/credits-required m)) #{})
+     :credits-earned (or (ls/dec* (:student/credits-earned m)) #{})
+     :credits-required (or (ls/dec* (:student/credits-required m)) #{})
      :academic-integrity-flag? (boolean (:student/academic-integrity-flag? m))
      :grading-finalized? (boolean (:student/grading-finalized? m))
      :graduation-finalized? (boolean (:student/graduation-finalized? m))
@@ -250,25 +246,25 @@
          (map #(pull->student (d/pull (d/db conn) student-pull [:student/id %])))
          (sort-by :id)))
   (integrity-screen-of [_ id]
-    (dec* (d/q '[:find ?p . :in $ ?sid
+    (ls/dec* (d/q '[:find ?p . :in $ ?sid
                 :where [?k :integrity-screen/student-id ?sid] [?k :integrity-screen/payload ?p]]
               (d/db conn) id)))
   (assessment-of [_ student-id]
-    (dec* (d/q '[:find ?p . :in $ ?sid
+    (ls/dec* (d/q '[:find ?p . :in $ ?sid
                 :where [?a :assessment/student-id ?sid] [?a :assessment/payload ?p]]
               (d/db conn) student-id)))
   (ledger [_]
     (->> (d/q '[:find ?s ?f :where [?e :ledger/seq ?s] [?e :ledger/fact ?f]] (d/db conn))
          (sort-by first)
-         (mapv (comp dec* second))))
+         (mapv (comp ls/dec* second))))
   (grading-history [_]
     (->> (d/q '[:find ?s ?r :where [?e :grading/seq ?s] [?e :grading/record ?r]] (d/db conn))
          (sort-by first)
-         (mapv (comp dec* second))))
+         (mapv (comp ls/dec* second))))
   (graduation-history [_]
     (->> (d/q '[:find ?s ?r :where [?e :graduation/seq ?s] [?e :graduation/record ?r]] (d/db conn))
          (sort-by first)
-         (mapv (comp dec* second))))
+         (mapv (comp ls/dec* second))))
   (next-grading-sequence [_ jurisdiction]
     (or (d/q '[:find ?n . :in $ ?j
               :where [?e :grading-sequence/jurisdiction ?j] [?e :grading-sequence/next ?n]]
@@ -289,10 +285,10 @@
       (d/transact! conn [(student->tx value)])
 
       :assessment/set
-      (d/transact! conn [{:assessment/student-id (first path) :assessment/payload (enc payload)}])
+      (d/transact! conn [{:assessment/student-id (first path) :assessment/payload (ls/enc payload)}])
 
       :integrity-screen/set
-      (d/transact! conn [{:integrity-screen/student-id (first path) :integrity-screen/payload (enc payload)}])
+      (d/transact! conn [{:integrity-screen/student-id (first path) :integrity-screen/payload (ls/enc payload)}])
 
       :student/mark-graded
       (let [student-id (first path)
@@ -302,7 +298,7 @@
         (d/transact! conn
                      [(student->tx (assoc student-patch :id student-id))
                       {:grading-sequence/jurisdiction jurisdiction :grading-sequence/next next-n}
-                      {:grading/seq (count (grading-history s)) :grading/record (enc (get result "record"))}])
+                      {:grading/seq (count (grading-history s)) :grading/record (ls/enc (get result "record"))}])
         result)
 
       :student/mark-graduated
@@ -313,12 +309,12 @@
         (d/transact! conn
                      [(student->tx (assoc student-patch :id student-id))
                       {:graduation-sequence/jurisdiction jurisdiction :graduation-sequence/next next-n}
-                      {:graduation/seq (count (graduation-history s)) :graduation/record (enc (get result "record"))}])
+                      {:graduation/seq (count (graduation-history s)) :graduation/record (ls/enc (get result "record"))}])
         result)
       nil)
     s)
   (append-ledger! [s fact]
-    (d/transact! conn [{:ledger/seq (count (ledger s)) :ledger/fact (enc fact)}])
+    (d/transact! conn [{:ledger/seq (count (ledger s)) :ledger/fact (ls/enc fact)}])
     fact)
   (with-students [s students]
     (when (seq students) (d/transact! conn (mapv student->tx (vals students)))) s))
