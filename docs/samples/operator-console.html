@@ -2470,13 +2470,13 @@ img,svg { max-width: 100%; height: auto; }</style></head><body>
     <h2>Students</h2>
     <p class="muted">Build-time snapshot generated from <code>secondary.store</code> by <code>secondary.render-html</code> (<code>clojure -M:render-html</code>) after a real <code>secondary.operation</code> actor run. No row is hand-written.</p>
     <table>
-      <thead><tr><th>Student</th><th>Name</th><th>Jurisdiction</th><th>Attendance hrs</th><th>Credits earned</th><th>Lifecycle</th><th>Last decision</th></tr></thead>
+      <thead><tr><th>Student</th><th>Name</th><th>Jurisdiction</th><th>Attendance hrs (done / required)</th><th>Credits (earned / required)</th><th>Lifecycle</th><th>Last decision</th></tr></thead>
       <tbody>
-        <tr><td><code>student-1</code></td><td>Sakura Tanaka</td><td>JPN</td><td>900 / 800</td><td>{english1, history1, math1, science1}</td><td><span class="ok">graded &amp; graduated</span></td><td><span class="warn">phase gate hold &middot; phase-disabled</span></td></tr>
-        <tr><td><code>student-2</code></td><td>Atlantis Doe</td><td>ATL</td><td>900 / 800</td><td>{english1, history1, math1, science1}</td><td><span class="muted">enrolled</span></td><td><span class="critical">HARD hold &middot; no-spec-basis</span></td></tr>
-        <tr><td><code>student-3</code></td><td>鈴木一郎</td><td>JPN</td><td>500 / 800</td><td>{english1, history1, math1, science1}</td><td><span class="muted">enrolled</span></td><td><span class="critical">HARD hold &middot; attendance-hours-insufficient</span></td></tr>
-        <tr><td><code>student-4</code></td><td>田中花子</td><td>JPN</td><td>900 / 800</td><td>{english1, history1, math1, science1}</td><td><span class="muted">enrolled</span></td><td><span class="critical">HARD hold &middot; academic-integrity-flag-unresolved</span></td></tr>
-        <tr><td><code>student-5</code></td><td>佐藤次郎</td><td>JPN</td><td>900 / 800</td><td>{math1, science1}</td><td><span class="muted">enrolled</span></td><td><span class="critical">HARD hold &middot; graduation-requirements-unsatisfied</span></td></tr>
+        <tr><td><code>student-1</code></td><td>Sakura Tanaka</td><td>JPN</td><td>900 / 800</td><td>{english1, history1, math1, science1} / {english1, history1, math1, science1}</td><td><span class="ok">graded &amp; graduated</span></td><td><span class="warn">phase gate hold &middot; phase-disabled</span></td></tr>
+        <tr><td><code>student-2</code></td><td>Atlantis Doe</td><td>ATL</td><td>900 / 800</td><td>{english1, history1, math1, science1} / {english1, history1, math1, science1}</td><td><span class="muted">enrolled</span></td><td><span class="critical">HARD hold &middot; no-spec-basis</span></td></tr>
+        <tr><td><code>student-3</code></td><td>鈴木一郎</td><td>JPN</td><td>500 / 800</td><td>{english1, history1, math1, science1} / {english1, history1, math1, science1}</td><td><span class="muted">enrolled</span></td><td><span class="critical">HARD hold &middot; attendance-hours-insufficient</span></td></tr>
+        <tr><td><code>student-4</code></td><td>田中花子</td><td>JPN</td><td>900 / 800</td><td>{english1, history1, math1, science1} / {english1, history1, math1, science1}</td><td><span class="muted">enrolled</span></td><td><span class="critical">HARD hold &middot; academic-integrity-flag-unresolved</span></td></tr>
+        <tr><td><code>student-5</code></td><td>佐藤次郎</td><td>JPN</td><td>900 / 800</td><td>{math1, science1} / {english1, history1, math1, science1}</td><td><span class="muted">enrolled</span></td><td><span class="critical">HARD hold &middot; graduation-requirements-unsatisfied</span></td></tr>
       </tbody>
     </table>
   </section>

@@ -276,10 +276,14 @@
                                    attendance-hours-completed attendance-hours-required
                                    credits-earned credits-required] :as s}]
   (format (str "        <tr><td><code>%s</code></td><td>%s</td><td>%s</td><td>%s / %s</td>"
-               "<td>%s</td><td>%s</td><td>%s</td></tr>")
+               "<td>%s / %s</td><td>%s</td><td>%s</td></tr>")
           (esc id) (esc student-name) (esc jurisdiction)
           (esc attendance-hours-completed) (esc attendance-hours-required)
+          ;; earned / required, the same completed-vs-required shape as the
+          ;; attendance column -- this is the exact pair the governor's
+          ;; `graduation-requirements-unsatisfied` check recomputes.
           (esc (sorted-set-str credits-earned))
+          (esc (sorted-set-str credits-required))
           (lifecycle-cell s)
           (status-cell ledger id)))
 
@@ -387,7 +391,7 @@
      "    <h2>Students</h2>\n"
      "    <p class=\"muted\">Build-time snapshot generated from <code>secondary.store</code> by <code>secondary.render-html</code> (<code>clojure -M:render-html</code>) after a real <code>secondary.operation</code> actor run. No row is hand-written.</p>\n"
      "    <table>\n"
-     "      <thead><tr><th>Student</th><th>Name</th><th>Jurisdiction</th><th>Attendance hrs</th><th>Credits earned</th><th>Lifecycle</th><th>Last decision</th></tr></thead>\n"
+     "      <thead><tr><th>Student</th><th>Name</th><th>Jurisdiction</th><th>Attendance hrs (done / required)</th><th>Credits (earned / required)</th><th>Lifecycle</th><th>Last decision</th></tr></thead>\n"
      "      <tbody>\n"
      (str/join "\n" (map (partial student-row ledger) students)) "\n"
      "      </tbody>\n"
