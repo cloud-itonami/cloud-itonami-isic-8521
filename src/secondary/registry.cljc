@@ -34,7 +34,7 @@
   `:grading/finalize`/`:graduation/finalize`, always human-gated --
   see README `Actuation`)."
   (:require [clojure.set :as set]
-            [clojure.string :as str]))
+            [kotoba.lang.text :as str]))
 
 (defn- unsigned-certificate
   "Every certificate this actor produces is UNSIGNED -- signature is the
@@ -87,7 +87,7 @@
     (throw (ex-info "grading-finalization: jurisdiction required" {})))
   (when (< sequence 0)
     (throw (ex-info "grading-finalization: sequence must be >= 0" {})))
-  (let [grading-number (str (str/upper-case jurisdiction) "-GRD-" (zero-pad sequence 6))
+  (let [grading-number (str (str/upper jurisdiction) "-GRD-" (zero-pad sequence 6))
         record {"record_id" grading-number
                 "kind" "grading-finalization-draft"
                 "student_id" student-id
@@ -112,7 +112,7 @@
     (throw (ex-info "graduation-finalization: jurisdiction required" {})))
   (when (< sequence 0)
     (throw (ex-info "graduation-finalization: sequence must be >= 0" {})))
-  (let [graduation-number (str (str/upper-case jurisdiction) "-GRA-" (zero-pad sequence 6))
+  (let [graduation-number (str (str/upper jurisdiction) "-GRA-" (zero-pad sequence 6))
         record {"record_id" graduation-number
                 "kind" "graduation-finalization-draft"
                 "student_id" student-id
