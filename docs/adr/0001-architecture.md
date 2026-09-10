@@ -199,7 +199,7 @@ own explicit statement.
   scoped to one of two actuations by the same domain-reasoning
   discipline `leasing`'s and `behavioral`'s ADR-0001s established.
 - (+) The actuation invariant (governor + phase, two layers) is
-  regression-tested by `test/secondary/phase_test.clj`'s `grading-
+  regression-tested by `test/secondary/phase_test.kotoba`'s `grading-
   finalize-never-auto-at-any-phase`/`graduation-finalize-never-auto-
   at-any-phase`.
 - (+) `MemStore` ‖ `DatomicStore` parity is proven by `test/secondary/
@@ -223,7 +223,7 @@ own explicit statement.
   table for the full honest-scope accounting.
 - A test-writing bug (an incorrect expectation for `graduation-
   requirements-unsatisfied?` on an entirely EMPTY student map, in
-  `test/secondary/registry_test.clj`) was caught and fixed during this
+  `test/secondary/registry_test.kotoba`) was caught and fixed during this
   build's lint/test pass -- the empty-subset-of-empty case is
   correctly "satisfied" (no requirements at all is trivially met), the
   same shape `registrar`'s and `casework`'s own set-containment checks
