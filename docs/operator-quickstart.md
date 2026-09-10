@@ -60,22 +60,22 @@ clojure -M:lint
 
 | File | Role |
 |---|---|
-| `src/secondary/governor.cljc` | **Curriculum Safeguarding Governor** — 5 hard-hold checks (spec-basis, evidence-incomplete, attendance-hours-insufficient, academic-integrity-flag-unresolved, graduation-requirements-unsatisfied) + already-graded/already-graduated guards |
-| `src/secondary/phase.cljc` | **Phase table** (0→3) — read-only → assisted intake → assisted assess → supervised. Both grading and graduation finalization always require human sign-off. |
-| `src/secondary/schoolopsllm.cljc` | **SchoolOps-LLM Advisor** — drafts intake/assessment/screening/grading/graduation proposals (mock or real LLM) |
-| `src/secondary/operation.cljc` | **OperationActor** — langgraph-clj StateGraph orchestrating the full actor |
-| `src/secondary/store.cljc` | **Store protocol** — MemStore ‖ DatomicStore with append-only audit ledger |
-| `src/secondary/registry.cljc` | Grading/graduation draft records and sufficiency checks (attendance-hours, graduation-requirements) |
-| `src/secondary/facts.cljc` | Per-jurisdiction secondary-education licensing catalog (spec-backed, honest coverage) |
-| `src/secondary/sim.cljc` | Demo driver — runs one clean lifecycle and five hard-hold cases |
+| `src/secondary/governor.kotoba` | **Curriculum Safeguarding Governor** — 5 hard-hold checks (spec-basis, evidence-incomplete, attendance-hours-insufficient, academic-integrity-flag-unresolved, graduation-requirements-unsatisfied) + already-graded/already-graduated guards |
+| `src/secondary/phase.kotoba` | **Phase table** (0→3) — read-only → assisted intake → assisted assess → supervised. Both grading and graduation finalization always require human sign-off. |
+| `src/secondary/schoolopsllm.kotoba` | **SchoolOps-LLM Advisor** — drafts intake/assessment/screening/grading/graduation proposals (mock or real LLM) |
+| `src/secondary/operation.kotoba` | **OperationActor** — langgraph-clj StateGraph orchestrating the full actor |
+| `src/secondary/store.kotoba` | **Store protocol** — MemStore ‖ DatomicStore with append-only audit ledger |
+| `src/secondary/registry.kotoba` | Grading/graduation draft records and sufficiency checks (attendance-hours, graduation-requirements) |
+| `src/secondary/facts.kotoba` | Per-jurisdiction secondary-education licensing catalog (spec-backed, honest coverage) |
+| `src/secondary/sim.kotoba` | Demo driver — runs one clean lifecycle and five hard-hold cases |
 
 ## Next steps
 
 1. **Understand the governance model:** Read `docs/adr/0001-architecture.md` for rationale and design history.
 2. **Explore business model:** See `docs/business-model.md` for customer, offer and revenue.
 3. **Plan first deployment:** Follow `docs/operator-guide.md` for registration, import, validation and configuration.
-4. **Integrate with your school system:** Override the mock LLM advisor in `src/secondary/schoolopsllm.cljc` with your jurisdiction's real student-information-system and curriculum data.
-5. **Customize Governor policy:** Adjust hold/escalation rules in `src/secondary/governor.cljc` for your jurisdiction's specific requirements.
+4. **Integrate with your school system:** Override the mock LLM advisor in `src/secondary/schoolopsllm.kotoba` with your jurisdiction's real student-information-system and curriculum data.
+5. **Customize Governor policy:** Adjust hold/escalation rules in `src/secondary/governor.kotoba` for your jurisdiction's specific requirements.
 
 ## Trust and transparency
 

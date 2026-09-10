@@ -100,7 +100,7 @@ at any phase, by construction.** Two independent layers enforce this
 finalize-graduation` high-stakes gate and `secondary.phase`'s phase
 table, which never puts `:grading/finalize`/`:graduation/finalize` in
 any phase's `:auto` set) -- see `secondary.phase`'s docstring and
-`test/secondary/phase_test.clj`'s `grading-finalize-never-auto-at-any-
+`test/secondary/phase_test.kotoba`'s `grading-finalize-never-auto-at-any-
 phase`/`graduation-finalize-never-auto-at-any-phase`. The actor may
 draft, check and recommend; a human licensed educator is always the
 one who actually finalizes a grading or graduation. Like `6512`/
@@ -190,14 +190,14 @@ stack only -- no bespoke domain capability lib to reference at all.
 
 | File | Role |
 |---|---|
-| `src/secondary/store.cljc` | **Store** protocol -- `MemStore` ‖ `DatomicStore` (`langchain.db`) + append-only audit ledger + separate grading-finalization/graduation-finalization history. No dynamically-filed sub-record -- both actuation ops act directly on a pre-seeded student, and the double-finalization guards check dedicated `:grading-finalized?`/`:graduation-finalized?` booleans rather than a `:status` value |
-| `src/secondary/registry.cljc` | Grading-finalization + graduation-finalization draft records, plus `attendance-hours-insufficient?` (SECOND non-temporal instance of the MINIMUM-threshold sufficiency family, after `association`) and `graduation-requirements-unsatisfied?` (THIRD instance of the set-containment/subset family, after `registrar`/`casework`) |
-| `src/secondary/facts.cljc` | Per-jurisdiction secondary-education licensing catalog with an official spec-basis citation per entry, honest coverage reporting |
-| `src/secondary/schoolopsllm.cljc` | **SchoolOps-LLM Advisor** -- `mock-advisor` ‖ `llm-advisor`; intake/assessment/academic-integrity-screening/grading-finalization/graduation-finalization proposals |
-| `src/secondary/governor.cljc` | **Curriculum Safeguarding Governor** -- 5 HARD checks (spec-basis · evidence-incomplete · attendance-hours-insufficient, pure ground-truth MINIMUM-threshold recompute · academic-integrity-flag-unresolved, unconditional evaluation, the TWENTY-THIRD grounding of this discipline and FIRST specifically for the academic-integrity-flag concept · graduation-requirements-unsatisfied, pure ground-truth set-containment recompute) + already-graded/already-graduated guards + 1 soft (confidence/actuation gate) |
-| `src/secondary/phase.cljc` | **Phase 0→3** -- read-only → assisted intake → assisted assess → supervised (both grading and graduation finalization always human; student intake is the ONLY auto-eligible op, no direct capital risk) |
-| `src/secondary/operation.cljc` | **OperationActor** -- langgraph-clj StateGraph |
-| `src/secondary/sim.cljc` | demo driver |
+| `src/secondary/store.kotoba` | **Store** protocol -- `MemStore` ‖ `DatomicStore` (`langchain.db`) + append-only audit ledger + separate grading-finalization/graduation-finalization history. No dynamically-filed sub-record -- both actuation ops act directly on a pre-seeded student, and the double-finalization guards check dedicated `:grading-finalized?`/`:graduation-finalized?` booleans rather than a `:status` value |
+| `src/secondary/registry.kotoba` | Grading-finalization + graduation-finalization draft records, plus `attendance-hours-insufficient?` (SECOND non-temporal instance of the MINIMUM-threshold sufficiency family, after `association`) and `graduation-requirements-unsatisfied?` (THIRD instance of the set-containment/subset family, after `registrar`/`casework`) |
+| `src/secondary/facts.kotoba` | Per-jurisdiction secondary-education licensing catalog with an official spec-basis citation per entry, honest coverage reporting |
+| `src/secondary/schoolopsllm.kotoba` | **SchoolOps-LLM Advisor** -- `mock-advisor` ‖ `llm-advisor`; intake/assessment/academic-integrity-screening/grading-finalization/graduation-finalization proposals |
+| `src/secondary/governor.kotoba` | **Curriculum Safeguarding Governor** -- 5 HARD checks (spec-basis · evidence-incomplete · attendance-hours-insufficient, pure ground-truth MINIMUM-threshold recompute · academic-integrity-flag-unresolved, unconditional evaluation, the TWENTY-THIRD grounding of this discipline and FIRST specifically for the academic-integrity-flag concept · graduation-requirements-unsatisfied, pure ground-truth set-containment recompute) + already-graded/already-graduated guards + 1 soft (confidence/actuation gate) |
+| `src/secondary/phase.kotoba` | **Phase 0→3** -- read-only → assisted intake → assisted assess → supervised (both grading and graduation finalization always human; student intake is the ONLY auto-eligible op, no direct capital risk) |
+| `src/secondary/operation.kotoba` | **OperationActor** -- langgraph-clj StateGraph |
+| `src/secondary/sim.kotoba` | demo driver |
 | `test/secondary/*_test.clj` | governor contract · phase invariants · store parity · registry conformance · facts coverage |
 
 ## Business-process coverage (honest)
