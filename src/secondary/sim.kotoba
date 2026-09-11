@@ -1,5 +1,5 @@
 (ns secondary.sim
-  "Demo driver -- `clojure -M:dev:run`. Walks a clean student through
+  "Demo driver -- `kbb -M:dev:run`. Walks a clean student through
   intake -> jurisdiction assessment -> academic-integrity screening ->
   grading-finalization proposal (always escalates) -> human approval
   -> commit, then through graduation-finalization proposal (always
