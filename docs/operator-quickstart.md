@@ -25,7 +25,7 @@ cd cloud-itonami-isic-8521
 Walk through one clean dual-actuation lifecycle (student intake → jurisdiction assessment → academic-integrity screening → grading finalization → graduation finalization) plus five hard-hold cases that the Governor blocks:
 
 ```bash
-clojure -M:dev:run
+kbb -M:dev:run
 ```
 
 This calls `secondary.sim/main` and prints:
@@ -38,7 +38,7 @@ This calls `secondary.sim/main` and prints:
 Verify the governor contract, phase invariants, store parity, registry conformance and facts coverage:
 
 ```bash
-clojure -M:dev:test
+kbb -M:dev:test
 ```
 
 Tests confirm:
@@ -53,7 +53,7 @@ Tests confirm:
 Static analysis via clj-kondo (errors fail in CI):
 
 ```bash
-clojure -M:lint
+kbb -M:lint
 ```
 
 ## Source layout
