@@ -1,0 +1,36 @@
+;; What this vertical's robot physically does, declared for
+;; kotoba.robotics.process (kotoba-lang/robotics). `kbb -M:dev:physics` runs it.
+;;
+;; README "Robotics premise": a classroom-safety monitoring robot supports
+;; physical supervision during activities in general secondary education
+;; (ISIC 8521). Its physical work is moving through the school with a tall
+;; camera/sensor mast: patrolling corridors among teenagers who move fast,
+;; and crossing the ramps between buildings, where the tall mast is what can
+;; tip it over.
+;;
+;; Every number without a cited source is marked `estimate` in its :basis.
+;; Replacing an estimate with a sourced value is this bot's growth work.
+{:physics/schema "itonami.physical-ai.spec.v1"
+ :repo "cloud-itonami/cloud-itonami-isic-8521"
+ :cases
+ [{:id :corridor-patrol-stop
+   :kind :transport
+   :procedure "monitoring robot patrols a secondary-school corridor at class change and brakes to a stop for a student in its path"
+   :params {:mass-kg 40.0 :payload-kg 3.0 :distance-m 40.0 :a-max-mps2 0.5
+            :brake-decel-mps2 1.5 :drive-force-n 180.0 :crr 0.015
+            :cog-height-m 0.70 :support-half-length-m 0.25 :max-time-s 2000.0}
+   :sweep {:param :v-max-mps :values [0.5 0.8 1.0 1.2 1.5]}
+   :quantity :stopping-distance-m
+   :limit {:max 0.40 :basis "estimate: stop within roughly half a walking stride of first detection among students changing classes"}
+   :boundary {:lo 0.3 :hi 2.5}}
+  {:id :ramp-crossing-tipover
+   :kind :transport
+   :procedure "robot with a tall sensor mast drives down the ramp between school buildings and brakes at the bottom"
+   :params {:mass-kg 40.0 :payload-kg 3.0 :distance-m 20.0 :v-max-mps 0.8 :a-max-mps2 0.5
+            :brake-decel-mps2 1.5 :drive-force-n 180.0 :crr 0.015
+            :cog-height-m 0.70 :support-half-length-m 0.25
+            :payload-cog-height-m 1.40 :max-time-s 2000.0}
+   :sweep {:param :slope-deg :values [0.0 2.0 4.76 6.0 8.0]}
+   :quantity :min-tipover-margin
+   :limit {:min 0.30 :basis "estimate: keep 30 % of the restoring moment for kerbs, expansion joints and a student bumping the mast"}
+   :boundary {:lo 0.0 :hi 20.0}}]}
